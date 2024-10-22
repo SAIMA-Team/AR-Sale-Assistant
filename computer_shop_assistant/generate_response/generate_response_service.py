@@ -6,7 +6,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 # MongoDB connection setup
-connection_string = "mongodb+srv://ashan:ashan@cluster0.jkjpbuh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+connection_string = <mongodb connecting string>
 client = MongoClient(connection_string)
 db = client["computer_shop"]
 processor_collection = db["processor"]
