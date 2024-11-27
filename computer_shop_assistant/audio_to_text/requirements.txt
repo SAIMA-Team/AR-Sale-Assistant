@@ -1,5 +1,0 @@
-# requirements.txt for audio_to_text_service
-
-Flask==2.0.1
-SpeechRecognition==3.8.1
-gunicorn==20.1.0
