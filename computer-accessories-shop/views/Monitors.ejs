@@ -1,0 +1,134 @@
+<%- include('partials/header') %>
+
+<body background="" style="background-size: cover; background-color: black;">
+
+  <%- include('partials/navMenu') %>   <!-- Include the navigation bar partial -->
+  
+  <%- include('partials/sideMenu') %>   <!-- Include the sidebar partial -->
+
+  <div id="mainContent" style="margin-left: 220px; padding: 20px;">  <!-- Main content after sidebar -->
+    <h1 style="color: gray;">Monitors</h1>
+
+    <!-- Grid container for Monitor products -->
+    <div id="monitorGrid" class="monitor-grid">
+      <% monitors.forEach(monitor => { %>
+        <div class="monitor-item transition-box">
+          <h2><%= monitor.name %></h2>
+          <div style="padding:10px">
+            <img src="<%= monitor.image %>" alt="<%= monitor.name %> Image" style="max-width: 150px;">
+          </div>
+          <p>Price: Rs.<%= monitor.price.toFixed(2) %></p>
+          <div style="padding:10px">
+            <button class="btn magnify2" onclick="addToCart('<%= monitor._id %>', 'monitors')" style="border-radius: 5px; opacity: 0.5">Add to Cart</button>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+
+  </div>
+
+  <script>
+    function addToCart(itemId, category) {
+      fetch(`/addToCart/${itemId}/${category}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          console.error('Error adding item to cart:', data.error);
+          alert('Error adding item to cart. Please try again.');
+        } else {
+          console.log('Item added successfully:', data.cartItem);
+          alert('Item added to cart successfully!');
+          // Optionally, update the cart display here
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+      });
+    }
+
+    // Adjust main content margin and grid layout based on side menu width
+    window.addEventListener('resize', function() {
+      const width = window.innerWidth;
+      const mainContent = document.getElementById('mainContent');
+      const monitorGrid = document.getElementById('monitorGrid');
+      
+      if (width < 768) { // Adjust this breakpoint as needed
+        mainContent.style.marginLeft = '60px'; // Adjust margin when side menu is collapsed
+        monitorGrid.style.gridTemplateColumns = '1fr'; // Display one item per row
+      } else {
+        mainContent.style.marginLeft = '220px'; // Full margin for expanded menu
+        monitorGrid.style.gridTemplateColumns = 'repeat(3, 1fr)'; // 3 items per row
+      }
+    });
+
+    // Initial call to set up the margin and grid on page load
+    window.dispatchEvent(new Event('resize'));
+  </script>
+
+  <style>
+    /* Grid layout for Monitors */
+    .monitor-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+      gap: 20px;  /* Space between the items */
+      margin-top: 20px;
+    }
+
+    .monitor-item {
+      color: gray;
+      text-align: center;
+      padding: 20px;
+      background-color: rgb(31, 29, 29);
+      
+      transition: background-color 0.3s ease;
+    }
+
+    .monitor-item:hover {
+      background-color: rgb(57, 56, 56);
+      color: black;
+      border: black;
+    }
+
+    
+
+    /* Button hover effect */
+    .btn {
+      background-color: rgb(48, 96, 241);
+      max-height: 40px;
+      color: black;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease; 
+    }
+
+    .btn:hover {
+      background-color: rgb(48, 96, 241);
+      color: black;
+      border: rgba(0, 0, 0);
+    }
+
+    .magnify2 {
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      transform-origin: center center;
+    }
+
+    .magnify2:hover {
+      transform: scale(1.2); /* Adjust the scale factor as needed */
+    }
+  </style>
+
+</body>
+
+<%- include('partials/footer') %>   <!-- Include the footer partial -->
+
+<!--rgba(253, 222, 222, 0.865);-->
+
+<!--rgba(234, 234, 217, 0.5);-->

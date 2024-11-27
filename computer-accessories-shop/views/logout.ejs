@@ -1,0 +1,13 @@
+<%- include('partials/header') %>
+<body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-size: cover;" background="30.jpg" >
+    <h2 style="margin-bottom: 10px;">Are you sure you want to logout!</h2>
+    <button onclick="logout()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Logout</button>
+    <script>
+        function logout() {
+            
+            window.location.href = "/logout";
+            alert("You are now logged out!");  
+        }
+    </script>
+</body>
+<%- include('partials/footer') %>

@@ -1,0 +1,36 @@
+version: '3'
+services:
+  audio-to-text:
+    build: ./audio_to_text
+    ports:
+      - "5001:5001"
+    image: pasachiya/audio-to-text:1.0v  # Specify the image name and tag
+
+  text-to-audio:
+    build: ./text_to_audio
+    ports:
+      - "5002:5002"
+    image: pasachiya/text-to-audio:1.0v  # Specify the image name and tag
+
+  generate-response:
+    build: ./generate_response
+    ports:
+      - "5003:5003"
+    image: pasachiya/generate-response:1.0v  # Specify the image name and tag
+
+  select-animation:
+    build: ./select_animation
+    ports:
+      - "5004:5004"
+    image: pasachiya/select-animation:1.0v  # Specify the image name and tag
+
+  main-orchestrator:
+    build: ./main_orchestrator
+    ports:
+      - "8000:5000"
+    depends_on:
+      - audio-to-text
+      - text-to-audio
+      - generate-response
+      - select-animation
+    image: pasachiya/main-orchestrator:1.0v  # Specify the image name and tag

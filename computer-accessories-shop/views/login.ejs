@@ -1,0 +1,71 @@
+<%- include('partials/header') %>
+<body background="10875867.png" style="background-size: cover;">
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div style="opacity: 0.75; background-color: lightgray; padding: 20px; max-width: 1000px; width: 50%; border-radius: 10px;">
+
+      <!-- Display error message if it exists -->
+      <% if (typeof errorMessage !== 'undefined') { %>
+        <div class="alert alert-danger" role="alert">
+          <%= errorMessage %>
+        </div>
+      <% } %>
+
+      <!-- Makes POST request to /login route -->
+      <form action="/login" method="POST">
+        <h1 display-3 style="color: black; text-align: center;">Login</h1>
+        <div class="form-group">
+          <input type="email" class="form-control" name="username" placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'">
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" onfocus="this.placeholder=''" onblur="this.placeholder='Password'">
+            <div class="input-group-append">
+              <!-- Removed border, outline, and background of the button -->
+              <button class="btn" id="togglePassword" type="button" onclick="togglePasswordVisibility()">
+                <i id="eyeIcon" class="fa fa-eye"></i> <!-- Eye symbol for toggling password visibility -->
+              </button>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-dark w-100">Login</button>
+      </form>
+  </div>
+</div>
+</body>
+<%- include('partials/footer') %>
+
+<style>
+  #togglePassword {
+    border: none;               /* Removes the border around the button */
+    outline: none;               /* Removes the outline around the button */
+    background: none;            /* Removes any background color */
+    box-shadow: none;            /* Removes any shadow applied to the button */
+  }
+
+  #togglePassword:focus {
+    outline: none;               /* Ensures no outline when the button is focused */
+  }
+
+  #eyeIcon {
+    color: black;                /* Ensures the icon color remains visible */
+    cursor: pointer;             /* Changes cursor to pointer to indicate it's clickable */
+  }
+
+</style>
+
+<script>
+function togglePasswordVisibility() {
+    var passwordInput = document.getElementById("password");
+    var eyeIcon = document.getElementById("eyeIcon");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");
+    } else {
+        passwordInput.type = "password";
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");
+    }
+}
+</script>

@@ -1,0 +1,89 @@
+<aside id="sideMenu" style="width: 60px; background-color: transparent; padding: 20px; position: fixed; top: 0; bottom: 0; transition: width 0.3s;">
+  <div style="height: 85px;"></div>
+  <div id="hamburger" style="cursor: pointer; display: block;">
+    <span style="display: block; width: 30px; height: 3px; background-color: lightgray; margin: 5px 0;"></span>
+    <span style="display: block; width: 30px; height: 3px; background-color: lightgray; margin: 5px 0;"></span>
+    <span style="display: block; width: 30px; height: 3px; background-color: lightgray; margin: 5px 0;"></span>
+  </div>
+  <ul id="menuList" style="list-style: none; padding: 0; display: none;">
+    <li class="menu-item"><a href="/processors" class="menu-link">Processors</a></li>
+    <li class="menu-item"><a href="/motherboards" class="menu-link">Motherboards</a></li>
+    <li class="menu-item"><a href="/monitors" class="menu-link">Monitors</a></li>
+    <li class="menu-item"><a href="/gpus" class="menu-link">Graphics cards</a></li>
+    <li class="menu-item"><a href="/catelog" class="menu-link">Catelog</a></li>
+  </ul>  
+</aside>
+
+<script>
+  let isMenuExpanded = false;
+
+  function toggleMenu() {
+    const sideMenu = document.getElementById('sideMenu');
+    const menuList = document.getElementById('menuList');
+    const mainContent = document.getElementById('mainContent');
+
+    isMenuExpanded = !isMenuExpanded;
+
+    if (isMenuExpanded) {
+      sideMenu.style.width = '200px'; // Expand the menu
+      menuList.style.display = 'block'; // Show the menu list
+      if (mainContent) mainContent.style.marginLeft = '200px'; // Adjust main content margin if exists
+    } else {
+      sideMenu.style.width = '60px'; // Collapse the menu
+      menuList.style.display = 'none'; // Hide the menu list
+      if (mainContent) mainContent.style.marginLeft = '60px'; // Adjust main content margin if exists
+    }
+  }
+
+  window.addEventListener('resize', function() {
+    const width = window.innerWidth;
+    const hamburger = document.getElementById('hamburger');
+    const menuList = document.getElementById('menuList');
+
+    if (width < 768) { // Adjust this breakpoint as needed
+      hamburger.style.display = 'block';
+      menuList.style.display = isMenuExpanded ? 'block' : 'none'; // Show menu based on state
+    } else {
+      hamburger.style.display = 'none';
+      menuList.style.display = 'block'; // Show menu on larger screens
+      sideMenu.style.width = '200px'; // Ensure full width on larger screens
+      if (mainContent) mainContent.style.marginLeft = '200px'; // Full margin for expanded menu
+    }
+  });
+
+  // Initial call to set up the menu on page load
+  window.dispatchEvent(new Event('resize'));
+
+  document.getElementById('hamburger').addEventListener('click', toggleMenu);
+</script>
+
+<style>
+  /* Style menu items */
+  .menu-item {
+    margin-bottom: 5px;
+    background-color: rgb(73, 72, 72); /* Default color */
+  }
+
+  .menu-link {
+    color: lightgray;
+    text-decoration: none; /* Remove underline from links */
+    text-align: center;
+    padding: 10px 0;
+    display: block;
+    transition: color 0.3s ease; /* Smooth color transition */
+  }
+
+  /* Hover effect */
+  .menu-item:hover {
+    background-color: rgb(48, 96, 241); /* Change background color to blue on hover */
+  }
+
+  .menu-item:hover .menu-link {
+    color: black; /* Change text color to black on hover */
+    text-decoration: none;
+  }
+</style>
+
+<!--rgb(69, 19, 207)-->
+
+<!--rgb(7, 50, 190);-->

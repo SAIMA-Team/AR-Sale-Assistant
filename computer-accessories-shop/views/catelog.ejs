@@ -1,0 +1,26 @@
+<%- include('partials/header') %> 
+<body background="10875867.png" style="background-size: cover; background-color: black;">
+
+  <%- include('partials/navMenu') %>   <!-- Include the navigation bar partial -->
+
+  <%- include('partials/sideMenu') %>   <!-- Include the sidebar partial -->
+
+
+  <script>
+    // Adjust main content margin based on side menu width
+    window.addEventListener('resize', function() {
+      const width = window.innerWidth;
+      const mainContent = document.getElementById('mainContent');
+
+      if (width < 768) { // Adjust this breakpoint as needed
+        mainContent.style.marginLeft = '600px'; // Adjust margin when side menu is collapsed
+      } else {
+        mainContent.style.marginLeft = '220px'; // Full margin for expanded menu
+      }
+    });
+
+    // Initial call to set up the margin on page load
+    window.dispatchEvent(new Event('resize'));
+  </script>
+
+</body>

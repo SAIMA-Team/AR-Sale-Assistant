@@ -1,0 +1,98 @@
+<%- include('partials/header') %> 
+<body style="background-size: cover; font-family: Arial, sans-serif; background-color: black;">
+
+  <%- include('partials/navMenu') %>   <!-- Include the navigation bar partial -->
+
+  <%- include('partials/sideMenu') %>   <!-- Include the sidebar partial -->
+
+  <div id="mainContent" style="margin-left: 220px; padding: 20px;">  <!-- Main content after sidebar -->
+    <h1 style="color: gray; text-align: left; margin-bottom: 20px;">Reviews</h1>
+
+    <div style="margin-left: 10px; background-color: rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 20px;">
+      <form action="/Reviews" method="post">
+        <label style="font-size: 24px; color: lightgray;" for="review">Write your expression:</label><br>
+        <textarea id="review" name="review" rows="2" cols="100" style="background-color: #cfd8e3; border-radius: 5px; color: black; border: none; padding: 10px; width: calc(100% - 22px);"></textarea>
+        <br>
+        <button class="magnify2" type="submit" style="background-color: #b0c4de; border-radius: 5px; border: none; padding: 10px 20px; color: #000; cursor: pointer; transition: background-color 0.3s;">Submit</button>
+      </form>
+    </div>
+
+    <div style="margin-top: 20px; color: white;">
+      <% if (reviews.length > 0) { %>
+        <ul style="list-style-type: none; padding: 0;">
+
+          <!-- Sort reviews by createdAt (latest first) -->
+          <% reviews
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))  <!-- Sort by date descending -->
+              .slice(0, 5)   <!-- Show only the first 5 reviews -->
+              .forEach(review => { %>
+
+            <div style="background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 10px; padding: 10px; margin-top: 10px; transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+              <li>
+                <p style="font-size: 14px; color: #b0c4de"><%= review.user.username %></p>
+                <p style="font-size: 14px; color: #b0c4de"><%= new Date(review.createdAt).toLocaleString() %></p> <!-- Format the date -->
+                <p style="font-size: 16px; color: #e1e8e9"><%= review.text %></p>
+              </li>
+            </div>
+          <% }); %>
+        </ul>
+
+        <% if (reviews.length > 5) { %> <!-- Show button only if there are more than 5 reviews -->
+          <button id="showMoreButton" style="margin-top: 20px; background-color: #b0c4de; border-radius: 5px; border: none; padding: 10px 20px; color: #000; cursor: pointer; transition: background-color 0.3s;" onclick="toggleReviews()">Show All Reviews</button>
+        <% } %>
+
+        <div id="moreReviews" style="display: none;"> <!-- Hidden div for additional reviews -->
+          <ul style="list-style-type: none; padding: 0;">
+            <% reviews
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))  <!-- Sort by date descending -->
+                .slice(5)   <!-- Show remaining reviews -->
+                .forEach(review => { %>
+              <div style="background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 10px; padding: 10px; margin-top: 10px;">
+                <li>
+                  <p style="font-size: 14px; color: #b0c4de"><%= review.user.username %></p>
+                  <p style="font-size: 14px; color: #b0c4de"><%= new Date(review.createdAt).toLocaleString() %></p> <!-- Format the date -->
+                  <p style="font-size: 16px; color: #e1e8e9"><%= review.text %></p>
+                </li>
+              </div>
+            <% }); %>
+          </ul>
+        </div>
+
+      <% } else { %>
+        <p style="font-size: 16px;">No reviews available.</p>
+      <% } %>
+    </div>
+  </div>
+
+  <script>
+    // Adjust main content margin based on side menu width
+    window.addEventListener('resize', function() {
+      const width = window.innerWidth;
+      const mainContent = document.getElementById('mainContent');
+
+      if (width < 768) { // Adjust this breakpoint as needed
+        mainContent.style.marginLeft = '60px'; // Adjust margin when side menu is collapsed
+      } else {
+        mainContent.style.marginLeft = '220px'; // Full margin for expanded menu
+      }
+    });
+
+    // Initial call to set up the margin on page load
+    window.dispatchEvent(new Event('resize'));
+
+    // Function to toggle visibility of additional reviews
+    function toggleReviews() {
+      const moreReviews = document.getElementById('moreReviews');
+      const button = document.getElementById('showMoreButton');
+      if (moreReviews.style.display === "none") {
+        moreReviews.style.display = "block";
+        button.innerText = "Show Less Reviews";
+      } else {
+        moreReviews.style.display = "none";
+        button.innerText = "Show All Reviews";
+      }
+    }
+  </script>
+
+  <%- include('partials/footer') %>   <!-- Include the footer partial -->
+</body>
